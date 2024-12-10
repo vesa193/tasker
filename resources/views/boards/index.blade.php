@@ -3,5 +3,8 @@
 
 @section('content')
     <h1 class="text-3xl font-bold">Boards</h1>
-    <a href="{{route('auth.logout')}}" class="text-sm text-gray-600 hover:text-gray-900">Logout</a>
+    <form action="{{ route('auth.logout') }}" method="post">
+       @csrf
+       <button type="submit">Logout</button>
+    </form>
 @endsection
