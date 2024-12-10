@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,21 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::get('/register', function () {
+    return view('auth.register');
+})->name('register');
+
+Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
+// Route::post('/boards', [AuthController::class, 'logout'])->name('auth.logout');
+
+
+
+Route::get('/boards', function () {
+    return view('boards.index');
+})->name('boards.index')->middleware('auth:sanctum');
+
