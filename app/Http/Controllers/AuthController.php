@@ -13,60 +13,52 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+            $request->validate([
+                'email' => 'required|email',
+                'password' => 'required|min:6',
+            ]);
 
-        $email = $request->input('email');
-        $password = $request->input('password');
+        $credentials = $request->only('email', 'password');
 
-        $user = User::where('email', $email)->where('password', $password)->first();
-
-        if ($user) {
-            $request->session()->put('user', $user);
-            return redirect('/');
+        if (auth()->attempt($credentials)) {
+            return redirect()->route('boards.index')->with('success', 'Login successful!');
         }
 
-        return redirect('/login')->with('error', 'Invalid email or password');
+        return back()->withErrors([
+            'email' => 'Email or password is invalid',
+        ])->onlyInput('email');
     }
 
     public function register(Request $request)
     {
         try {
-            // Validacija unetih podataka
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|min:8|confirmed',
             ]);
 
-            // Kreiranje korisnika
             $user = User::create([
                 'name' => $validatedData['name'],
                 'email' => $validatedData['email'],
-                'password' => Hash::make($validatedData['password']), // Hashuj lozinku
+                'password' => Hash::make($validatedData['password']),
                 'email_verified_at' => now(),
                 'remember_token' => Str::random(10),
             ]);
 
-            // (Opcionalno) Automatsko logovanje korisnika
             auth()->login($user);
 
-            // Preusmeri korisnika
             return redirect()->route('boards.index')->with('success', 'Registration successful!');
         } catch (\Exception $e) {
-            // Loguj grešku
             Log::error('Greška pri registraciji korisnika: ' . $e->getMessage());
 
-            // Takođe, možeš prikazati grešku korisniku
-            return back()->withErrors(['error' => 'Something went wrong, try again']);
+            return back()->withErrors(['error' => $e->getMessage()]);
         }
     }
 
     public function logout()
     {
         auth()->logout();
-        return redirect()->route('login'); // Redirect to the login page
+        return redirect()->route('login');
     }
 }

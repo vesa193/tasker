@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BoardController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,8 +17,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    if (Auth::check()) {
+        return redirect('/boards');
+    }
+
+    return redirect('/login');
+})->name('home')->middleware('auth');
 
 Route::get('/login', function () {
     return view('auth.login');
@@ -28,11 +34,7 @@ Route::get('/register', function () {
 
 Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
-Route::post('/boards', [AuthController::class, 'logout'])->name('auth.logout');
+Route::post('*', [AuthController::class, 'logout'])->name('auth.logout')->middleware('auth');
 
 
-
-Route::get('/boards', function () {
-    return view('boards.index');
-})->name('boards.index')->middleware('auth:sanctum');
-
+Route::resource('/boards', BoardController::class)->middleware('auth')->only('index', 'create', 'store', 'show');

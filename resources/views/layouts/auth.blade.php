@@ -7,7 +7,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
-    <div>
+    <div class="h-screen grid place-content-center">
         @yield('content')
     </div>
 </body>
