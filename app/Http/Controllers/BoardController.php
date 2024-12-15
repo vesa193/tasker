@@ -64,7 +64,9 @@ class BoardController extends Controller
      */
     public function show(Board $board)
     {
-        //
+        $board = Board::find($board->id);
+        Log::info('Boards from SHOW: ' . $board);
+        return view('boards.show', ['board' => $board])->with('success', 'Board is successfully fetched!');
     }
 
     /**
@@ -75,7 +77,7 @@ class BoardController extends Controller
      */
     public function edit(Board $board)
     {
-        //
+
     }
 
     /**
@@ -87,7 +89,19 @@ class BoardController extends Controller
      */
     public function update(Request $request, Board $board)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        if ($board->name !== $request->name) {
+            $board->name = $request->name;
+            $board->save();
+
+            return redirect()->back()->with('success', 'Board is successfully updated!');
+        }
+
+        return redirect()->back()->with('error', 'Input should be filled and different!');
+
     }
 
     /**

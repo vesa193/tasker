@@ -37,6 +37,6 @@
        <button type="submit">Logout</button>
     </form>
 
-@include('components.modal')
+@include('components.modals.create-modal')
 <script src="{{ asset('js/script.js') }}"></script>
 @endsection
