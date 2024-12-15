@@ -20,7 +20,7 @@
             <ul class="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-2 max-h-[300px] py-[1rem]">
                 @foreach ($boards as $board)
                 <li class="relative border bg-white border-gray-200 text-center rounded-[3px] h-[4rem]">
-                    <a href="{{ route('boards.show', $board->id) }}" class="absolute top-0 left-0 w-full h-full flex justify-center items-center ">{{ $board->name }}</a>
+                    <a href="{{ route('boards.show', $board->id) }}" class="board-item w-full h-full flex justify-center items-center ">{{ $board->name }}</a>
                 </li>
                 @endforeach
             </ul>
@@ -38,5 +38,6 @@
     </form>
 
 @include('components.modals.create-modal')
+@include('components.modals.edit-modal')
 <script src="{{ asset('js/script.js') }}"></script>
 @endsection

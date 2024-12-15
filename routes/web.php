@@ -37,4 +37,4 @@ Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('*', [AuthController::class, 'logout'])->name('auth.logout')->middleware('auth');
 
 
-Route::resource('/boards', BoardController::class)->middleware('auth')->only('index', 'create', 'store', 'show', 'update');
+Route::resource('/boards', BoardController::class)->middleware('auth')->only('index', 'create', 'store', 'show', 'update', 'destroy');

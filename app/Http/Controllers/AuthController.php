@@ -50,7 +50,6 @@ class AuthController extends Controller
 
             return redirect()->route('boards.index')->with('success', 'Registration successful!');
         } catch (\Exception $e) {
-            Log::error('Greška pri registraciji korisnika: ' . $e->getMessage());
 
             return back()->withErrors(['error' => $e->getMessage()]);
         }

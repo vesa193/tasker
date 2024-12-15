@@ -100,7 +100,9 @@ class BoardController extends Controller
             return redirect()->back()->with('success', 'Board is successfully updated!');
         }
 
-        return redirect()->back()->with('error', 'Input should be filled and different!');
+        return back()->withErrors([
+            'name' => 'Name is empty or equal to previous name',
+        ])->onlyInput('name');
 
     }
 
@@ -112,6 +114,8 @@ class BoardController extends Controller
      */
     public function destroy(Board $board)
     {
-        //
+        Log::info('Boards from DESTROY: ' . $board);
+        $board->delete();
+        return redirect()->route('boards.index')->with('success', 'Board is successfully deleted!');
     }
 }
