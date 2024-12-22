@@ -8,8 +8,19 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+
     <nav class="flex items-center justify-between p-[1rem] border-b-2 border-gray-50">
-        <h1 class="text-3xl font-bold">Tasker</h1>
+        <a class="{{ Route::currentRouteName() === 'boards.index' ? 'pointer-events-none' : '' }}" href="{{ route('boards.index') }}">
+            @if (Route::currentRouteName() === 'boards.index')
+                <h1 class="text-3xl font-bold text-blue-600">Tasker</h1>
+
+            @else
+                <p class="text-2xl">
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    Boards
+                </p>
+            @endif
+        </a>
         <div class="username">
             <p class="font-bold hover:text-blue-600 cursor-pointer text-end">{{ auth()->user()->name }}</p>
             <ul class="username-actions absolute bg-white border border-gray-200 rounded-[3px] w-full bottom-[-120px] left-0 flex flex-col gap-2 shadow-md">

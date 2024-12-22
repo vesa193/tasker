@@ -61,5 +61,19 @@ function onChangeBoardName(event, submitButton, boardName) {
 function handleLogout(event) {
     const form = event.currentTarget.querySelector("form");
 
-    form && form.submit();
+    if (form) {
+        form.submit();
+    }
+}
+
+function handleInfoBoardModal(modalId, event) {
+    const targetElement = event.target;
+    const modal = document.getElementById(modalId);
+    const modalTitle = modal.querySelector("h5");
+    const boardId = targetElement.getAttribute("data-id");
+    const boardName = targetElement.getAttribute("data-name");
+    modalTitle.textContent = boardName;
+    const deleteBoard = document.getElementById("deleteBoard");
+    deleteBoard.setAttribute("action", `/boards/${boardId}`);
+    modal.classList.toggle("hidden");
 }
