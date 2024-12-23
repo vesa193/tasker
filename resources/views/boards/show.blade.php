@@ -10,5 +10,13 @@
             {{ session('success') }}
         </div>
     @endif
+
+    <div class="grid grid-cols-[repeat(auto-fill,minmax(230px,1fr))] h-[750px] gap-[2rem]">
+        @foreach ($columns as $column)
+            <div class="bg-gray-100 rounded-md p-[1rem]">
+                <p>{{ $column->title }}</p>
+            </div>
+        @endforeach
+    </div>
 @endsection
 

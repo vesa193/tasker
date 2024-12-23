@@ -65,8 +65,10 @@ class BoardController extends Controller
     public function show(Board $board)
     {
         $board = Board::find($board->id);
+        $columns = $board->columns;
         Log::info('Boards from SHOW: ' . $board);
-        return view('boards.show', ['board' => $board])->with('success', 'Board is successfully fetched!');
+        Log::info('COLUMNS: ' . $columns);
+        return view('boards.show', ['columns' => $columns, 'board' => $board])->with('success', 'Columns from board are successfully fetched!');
     }
 
     /**
