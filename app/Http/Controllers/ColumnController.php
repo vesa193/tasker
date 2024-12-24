@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Board;
 use App\Models\Column;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ColumnController extends Controller
 {
@@ -12,9 +14,12 @@ class ColumnController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($request)
     {
-        //
+        $boardId = $request->route('boardId');
+        $columns = Column::all()->where('board_id', $boardId);
+        $board = Board::find($boardId);
+        return view('boards.show', ['columns' => $columns, 'board' => $board])->with('success', 'Columns from board are successfully fetched!');
     }
 
     /**
@@ -24,7 +29,7 @@ class ColumnController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -35,7 +40,26 @@ class ColumnController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $title = $request->title;
+            $boardId = $request->board_id;
+            $board = Board::find($boardId);
+
+            $request->validate([
+                'title' => 'required|string|max:255',
+                'board_id' => 'required|exists:boards,id',
+            ]);
+
+            $column = new Column();
+            $column->title = $title;
+            $column->board_id = $boardId;
+            $column->save();
+            $columns = Column::all()->where('board_id', $boardId);
+
+            return redirect()->route('boards.show', ['board' => $board, 'columns' => $columns])->with('success', 'Column is successfully created!');
+        } catch (\Throwable $th) {
+            Log::error('Greška pri kreiranju stupca: ' . $th->getMessage());
+        }
     }
 
     /**
@@ -69,7 +93,13 @@ class ColumnController extends Controller
      */
     public function update(Request $request, Column $column)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+
+        $column->title = $request->title;
+        $column->save();
+        return redirect()->back()->with('success', 'Column is successfully updated!');
     }
 
     /**
@@ -80,6 +110,7 @@ class ColumnController extends Controller
      */
     public function destroy(Column $column)
     {
-        //
+        $column->delete();
+        return redirect()->back()->with('success', 'Column is successfully deleted!');
     }
 }

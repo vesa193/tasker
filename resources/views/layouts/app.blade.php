@@ -23,7 +23,7 @@
         </a>
         <div class="username">
             <p class="font-bold hover:text-blue-600 cursor-pointer text-end">{{ auth()->user()->name }}</p>
-            <ul class="username-actions absolute bg-white border border-gray-200 rounded-[3px] w-full bottom-[-120px] left-0 flex flex-col gap-2 shadow-md">
+            <ul class="username-actions absolute bg-white border border-gray-200 rounded-[3px] w-full bottom-[-120px] left-0 flex flex-col gap-2 shadow-md z-10">
                 <li class="p-2 hover:bg-slate-200 cursor-pointer" onclick="handleDeleteModal('deleteBoardModal', event)">
                     Profile
                     <i class="fa fa-user" aria-hidden="true"></i>

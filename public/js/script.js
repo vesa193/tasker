@@ -77,3 +77,55 @@ function handleInfoBoardModal(modalId, event) {
     deleteBoard.setAttribute("action", `/boards/${boardId}`);
     modal.classList.toggle("hidden");
 }
+
+function handleCreateColumnModal(modalId, event) {
+    const targetElement = event.target;
+    const modal = document.getElementById(modalId);
+    const boardId = targetElement.getAttribute("data-board-id");
+    const createColumnForm = modal.querySelector("form");
+    const inputboardId = createColumnForm.querySelector(
+        "input[name='board_id']"
+    );
+    inputboardId.value = boardId;
+    modal.classList.toggle("hidden");
+}
+
+function toggleColumnDropdown(dropdownId, event) {
+    const targetElement = event.target;
+    const dropdown = targetElement.nextElementSibling;
+    dropdown.classList.toggle("hidden");
+}
+
+function handleEditColumnModal(modalId, event) {
+    const targetElement = event.currentTarget;
+    const columnId = targetElement.getAttribute("data-column-id");
+    const modal = document.getElementById(modalId);
+    const columnTitle =
+        targetElement.parentElement.parentElement.querySelector("p");
+    console.log("columnTitle", columnTitle);
+    const editColumnForm = modal.querySelector("form");
+    const columnTitleInput = editColumnForm.querySelector(
+        "input[name='title']"
+    );
+    const columnTitleValue = columnTitle.textContent;
+    columnTitleInput.value = columnTitleValue;
+    editColumnForm.setAttribute("action", `/columns/${columnId}`);
+    modal.classList.toggle("hidden");
+    const dropdown = event.currentTarget.parentElement;
+    dropdown.classList.toggle("hidden");
+}
+
+function handleDeleteColumnModal(modalId, event) {
+    const targetElement = event.currentTarget;
+    const columnId = targetElement.getAttribute("data-column-id");
+    const modal = document.getElementById(modalId);
+    const columnTitle =
+        targetElement.parentElement.parentElement.querySelector("p");
+    const modalTitle = modal.querySelector("h5");
+    modalTitle.textContent = `Column - ${columnTitle.textContent}`;
+    const deleteColumn = modal.querySelector("form");
+    deleteColumn.setAttribute("action", `/columns/${columnId}`);
+    modal.classList.toggle("hidden");
+    const dropdown = event.currentTarget.parentElement;
+    dropdown.classList.toggle("hidden");
+}
