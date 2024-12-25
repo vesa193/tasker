@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Board;
+use App\Models\Column;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class TaskController extends Controller
 {
@@ -12,9 +15,13 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request$request)
     {
-        //
+        $boardId = $request->route('boardId');
+        $board = Board::find($boardId);
+        $columns = Column::all()->where('board_id', $boardId);
+        $tasks = Task::all();
+        return view('boards.show', ['board' => $board, 'columns' => $columns, 'tasks' => $tasks]);
     }
 
     /**
@@ -35,7 +42,31 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $description = $request->description;
+            $columnId = $request->column_id;
+            $column = Column::find($columnId);
+            $boardId = $column->board_id;
+
+            Log::info('Board ID: ' . $boardId);
+
+            $request->validate([
+                'description' => 'required|string|max:255',
+                'column_id' => 'required|exists:columns,id',
+            ]);
+
+            $task = new Task();
+            $task->description = $description;
+            $task->column_id = $columnId;
+            $task->save();
+            $board = Board::find($boardId);
+            $columns = Column::all()->where('board_id', $boardId);
+            $tasks = Task::all()->where('column_id', $columnId);
+
+            return redirect()->route('boards.show', ['board' => $board, 'columns' => $columns])->with('success', "Task is successfully created in $column->title!");
+        } catch (\Throwable $th) {
+            Log::error('Greška pri kreiranju stupca: ' . $th->getMessage());
+        }
     }
 
     /**

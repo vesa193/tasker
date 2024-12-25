@@ -20,6 +20,6 @@ class Column extends Model
     // Relacija sa Task modelom
     public function tasks()
     {
-        return $this->hasMany(Task::class)->orderBy('position');
+        return $this->hasMany(Task::class);
     }
 }

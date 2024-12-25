@@ -129,3 +129,16 @@ function handleDeleteColumnModal(modalId, event) {
     const dropdown = event.currentTarget.parentElement;
     dropdown.classList.toggle("hidden");
 }
+
+function handleCreateTaskModal(modalId, event) {
+    const targetElement = event.target;
+    const modal = document.getElementById(modalId);
+    const columnTitle = targetElement.getAttribute("data-column-title");
+    modal.querySelector("h5").textContent = `Create ticket - ${columnTitle}`;
+    const modalForm = modal.querySelector("form");
+    const columnIdInput = modalForm.querySelector("input[name='column_id']");
+    columnIdInput.value = targetElement.getAttribute("data-column-id");
+    const boardIdInput = modalForm.querySelector("input[name='board_id']");
+    boardIdInput.value = targetElement.getAttribute("data-board-id");
+    modal.classList.toggle("hidden");
+}

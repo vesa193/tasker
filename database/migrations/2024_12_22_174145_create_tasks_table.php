@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('column_id')->constrained()->onDelete('cascade'); // Povezivanje sa kolonom
-            $table->string('title'); // Naslov taska
             $table->text('description')->nullable(); // Opis taska
             $table->timestamps();
         });

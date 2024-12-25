@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Board;
 use App\Models\Column;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -19,6 +20,7 @@ class ColumnController extends Controller
         $boardId = $request->route('boardId');
         $columns = Column::all()->where('board_id', $boardId);
         $board = Board::find($boardId);
+        $tasks = Task::all();
         return view('boards.show', ['columns' => $columns, 'board' => $board])->with('success', 'Columns from board are successfully fetched!');
     }
 
