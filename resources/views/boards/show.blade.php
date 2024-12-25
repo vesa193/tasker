@@ -20,7 +20,7 @@
                         <div class="relative bg-gray-100 flex justify-between rounded-md p-[1rem]">
                             <p class="column-title font-semibold text-ellipsis">{{ $column->title }}</p>
                             <i class="fa fa-ellipsis-h cursor-pointer" aria-hidden="true" onclick="toggleColumnDropdown('columnDropdownMenu', event)"></i>
-                            <ul id="columnDropdownMenu" class="absolute hidden select-none bg-white border border-gray-200 rounded-[3px] w-[140px] flex-col gap-2 shadow-md p-3 top-[100%] right-[0px]">
+                            <ul id="columnDropdownMenu" class="absolute hidden select-none bg-white border border-gray-200 rounded-[3px] w-[140px] shadow-md p-3 top-[100%] right-[0px] z-[2]">
                                 <li data-column-id="{{ $column->id }}" class="p-2 hover:bg-slate-200 cursor-pointer text-start" onclick="handleEditColumnModal('editColumnModal', event)">
                                     Edit
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -37,8 +37,21 @@
                                 <p class="mt-4">No tasks</p>
                                 @else
                                     @foreach ($column->tasks as $task)
-                                        <div class="bg-white rounded-md p-[1rem] mt-5">
-                                            <p class="task-title">{{ $task->description }}</p>
+                                        <div class="relative bg-white rounded-md p-[1rem] mt-5">
+                                            <p class="task-title break-words">{{ $task->description }}</p>
+                                            <i class="fa fa-ellipsis-h cursor-pointer absolute top-[1rem] right-[1rem]" aria-hidden="true" onclick="toggleColumnDropdown('taskDropdownMenu', event)"></i>
+
+                                            <ul id="taskDropdownMenu" class="absolute hidden select-none bg-white border border-gray-200 rounded-[3px] w-[140px] flex-col gap-2 shadow-md p-3 top-[100%] right-[0px] z-[2]">
+                                                <li data-task-id="{{ $task->id }}" data-task-description="{{ $task->description }}" class="p-2 hover:bg-slate-200 cursor-pointer text-start" onclick="handleEditTaskModal('editTaskModal', event)">
+                                                    Edit
+                                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                                </li>
+                                                <hr>
+                                                <li data-task-id="{{ $task->id }}" class="p-2 hover:bg-slate-200 cursor-pointer text-start text-red-600" onclick="handleDeleteTaskModal('deleteTaskModal', event)">
+                                                    Delete
+                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                </li>
+                                            </ul>
                                         </div>
                                     @endforeach
                                 @endif
@@ -56,6 +69,7 @@
     @include('components.modals.edit-column-modal')
     @include('components.modals.delete-column-modal')
     @include('components.modals.create-task-modal')
+    @include('components.modals.edit-task-modal')
     <script src="{{ asset('js/script.js') }}"></script>
 @endsection
 

@@ -142,3 +142,22 @@ function handleCreateTaskModal(modalId, event) {
     boardIdInput.value = targetElement.getAttribute("data-board-id");
     modal.classList.toggle("hidden");
 }
+
+function handleEditTaskModal(modalId, event) {
+    const targetElement = event.currentTarget;
+    const taskId = targetElement.getAttribute("data-task-id");
+    const modal = document.getElementById(modalId);
+    const taskDescription =
+        targetElement.parentElement.parentElement.querySelector("p");
+    console.log("columnTitle", taskDescription);
+    const editColumnForm = modal.querySelector("form");
+    const columnTitleInput = editColumnForm.querySelector(
+        "input[name='title']"
+    );
+    const columnTitleValue = taskDescription.textContent;
+    columnTitleInput.value = columnTitleValue;
+    editColumnForm.setAttribute("action", `/tasks/${taskId}`);
+    modal.classList.toggle("hidden");
+    const dropdown = event.currentTarget.parentElement;
+    dropdown.classList.toggle("hidden");
+}
