@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('column_id')->constrained()->onDelete('cascade'); // Povezivanje sa kolonom
             $table->string('title'); // Naslov taska
             $table->text('description')->nullable(); // Opis taska
-            $table->integer('position'); // Pozicija taska unutar kolone
             $table->timestamps();
         });
     }

@@ -42,7 +42,7 @@
             </ul>
         </div>
     </nav>
-    <main class="h-screen p-[2rem]">
+    <main class="max-h-[calc(100vh-4rem)] p-[2rem]">
         @yield('content')
     </main>
     @vite('resources/js/app.js')
