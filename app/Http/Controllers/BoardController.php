@@ -16,7 +16,8 @@ class BoardController extends Controller
      */
     public function index()
     {
-        $boards = Board::all();
+        $userId = Auth::user()->id;
+        $boards = Board::all()->where('user_id', $userId);
         Log::info('Boards from INDEX: ' . $boards);
         return view('boards.index', ['boards' => $boards])->with('success', 'Board is successfully fetched!');
     }

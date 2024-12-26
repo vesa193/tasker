@@ -2,7 +2,7 @@
 <div id="deleteTaskModal" class="fixed inset-0 z-50 items-center justify-center hidden bg-gray-800 bg-opacity-75">
     <div class="absolute left-1/2 top-1/2 translate-x-[-50%] translate-y-[-50%] bg-white rounded-lg shadow-lg w-full max-w-md p-6">
         <div class="flex items-center justify-between border-b pb-3">
-            <h5 class="text-lg font-medium text-gray-900">Delete task - {{ $task->title }}</h5>
+            <h5 class="text-lg font-medium text-gray-900">Delete task</h5>
             <button onclick="toggleModal('deleteTaskModal')" class="text-gray-400 hover:text-gray-600">
                 ✕
             </button>
