@@ -60,5 +60,4 @@
 @if (isset($board))
     @include('components.modals.info-board-modal')
 @endif
-<script src="{{ asset('js/script.js') }}"></script>
 @endsection

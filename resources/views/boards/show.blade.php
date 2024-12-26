@@ -70,6 +70,6 @@
     @include('components.modals.delete-column-modal')
     @include('components.modals.create-task-modal')
     @include('components.modals.edit-task-modal')
-    <script src="{{ asset('js/script.js') }}"></script>
+    @include('components.modals.delete-task-modal')
 @endsection
 

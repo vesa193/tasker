@@ -150,13 +150,28 @@ function handleEditTaskModal(modalId, event) {
     const taskDescription =
         targetElement.parentElement.parentElement.querySelector("p");
     console.log("columnTitle", taskDescription);
-    const editColumnForm = modal.querySelector("form");
-    const columnTitleInput = editColumnForm.querySelector(
-        "input[name='title']"
+    const editTaskForm = modal.querySelector("form");
+    const taskDescriptionInput = editTaskForm.querySelector(
+        "textarea[name='description']"
     );
-    const columnTitleValue = taskDescription.textContent;
-    columnTitleInput.value = columnTitleValue;
-    editColumnForm.setAttribute("action", `/tasks/${taskId}`);
+    console.log("taskDescriptionInput", taskDescriptionInput);
+    const taskDescriptionValue = taskDescription.textContent;
+    taskDescriptionInput.value = taskDescriptionValue;
+    editTaskForm.setAttribute("action", `/tasks/${taskId}`);
+
+    modal.classList.toggle("hidden");
+    const dropdown = event.currentTarget.parentElement;
+    dropdown.classList.toggle("hidden");
+}
+
+function handleDeleteTaskModal(modalId, event) {
+    const targetElement = event.currentTarget;
+    const taskId = targetElement.getAttribute("data-task-id");
+    const modal = document.getElementById(modalId);
+    const modalTitle = modal.querySelector("h5");
+    modalTitle.textContent = `Delete Task - ${taskId}`;
+    const deleteTaskForm = modal.querySelector("form");
+    deleteTaskForm.setAttribute("action", `/tasks/${taskId}`);
     modal.classList.toggle("hidden");
     const dropdown = event.currentTarget.parentElement;
     dropdown.classList.toggle("hidden");

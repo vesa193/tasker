@@ -100,7 +100,13 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //
+        $request->validate([
+            'description' => 'required|string|max:255',
+        ]);
+
+        $task->description = $request->description;
+        $task->save();
+        return redirect()->back()->with('success', "Task $task->id is successfully updated!");
     }
 
     /**
@@ -111,6 +117,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        $task->delete();
+        return redirect()->back()->with('success', "Task $task->id is successfully deleted!");
     }
 }
