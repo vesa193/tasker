@@ -19,8 +19,8 @@
                     <div class="bg-gray-100 rounded-md min-w-[250px] max-w-[250px]">
                         <div class="relative bg-gray-100 flex justify-between rounded-md p-[1rem]">
                             <p class="column-title font-semibold text-ellipsis">{{ $column->title }}</p>
-                            <i class="fa fa-ellipsis-h cursor-pointer" aria-hidden="true" onclick="toggleColumnDropdown('columnDropdownMenu', event)"></i>
-                            <ul id="columnDropdownMenu" class="absolute hidden select-none bg-white border border-gray-200 rounded-[3px] w-[140px] shadow-md p-3 top-[100%] right-[0px] z-[2]">
+                            <i class="fa fa-ellipsis-h cursor-pointer" aria-hidden="true" onclick="toggleColumnDropdown('columnDropdownMenu', event)" ></i>
+                            <ul id="columnDropdownMenu" class="absolute hidden select-none bg-white border border-gray-200 rounded-[3px] w-[140px] shadow-md p-3 top-[3rem] right-[0px] z-[2]">
                                 <li data-column-id="{{ $column->id }}" class="p-2 hover:bg-slate-200 cursor-pointer text-start" onclick="handleEditColumnModal('editColumnModal', event)">
                                     Edit
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -32,16 +32,22 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="grid gap-[1rem] p-[1rem] overflow-y-auto">
+                        <div class="flex flex-col h-[677px] gap-[1rem] p-[1rem] overflow-y-auto">
                             @if (!isset($column->tasks) || count($column->tasks) === 0)
                                 <p class="mt-4">No tasks</p>
                                 @else
                                     @foreach ($column->tasks as $task)
-                                        <div class="relative bg-white rounded-md p-[1rem] mt-5">
-                                            <p class="task-title break-words">{{ $task->description }}</p>
+                                        <div class="relative bg-white rounded-md p-[1rem] mt-4">
+                                            <p class="task-title break-words pt-[1rem]">{{ $task->description }}</p>
                                             <i class="fa fa-ellipsis-h cursor-pointer absolute top-[1rem] right-[1rem]" aria-hidden="true" onclick="toggleColumnDropdown('taskDropdownMenu', event)"></i>
 
                                             <ul id="taskDropdownMenu" class="absolute hidden select-none bg-white border border-gray-200 rounded-[3px] w-[140px] flex-col gap-2 shadow-md p-3 top-[100%] right-[0px] z-[2]">
+                                                <li data-task-id="{{ $task->id }}" data-column-id="{{ $column->id }}"
+                                                data-column-title="{{ $column->title }}"
+                                                data-task-description="{{ $task->description }}" class="p-2 hover:bg-slate-200 cursor-pointer text-start" onclick="handleMoveTaskModal('moveTaskModal', event)">
+                                                    Move
+                                                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                                </li>
                                                 <li data-task-id="{{ $task->id }}" data-task-description="{{ $task->description }}" class="p-2 hover:bg-slate-200 cursor-pointer text-start" onclick="handleEditTaskModal('editTaskModal', event)">
                                                     Edit
                                                     <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -71,5 +77,6 @@
     @include('components.modals.create-task-modal')
     @include('components.modals.edit-task-modal')
     @include('components.modals.delete-task-modal')
+    @include('components.modals.move-task-modal')
 @endsection
 

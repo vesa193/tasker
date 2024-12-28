@@ -100,6 +100,12 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
+        if ($request->column_id) {
+            $task->column_id = $request->column_id;
+            $task->save();
+            return redirect()->back()->with('success', "Task $task->id is successfully moved to column $request->column_id!");
+        }
+
         $request->validate([
             'description' => 'required|string|max:255',
         ]);

@@ -176,3 +176,36 @@ function handleDeleteTaskModal(modalId, event) {
     const dropdown = event.currentTarget.parentElement;
     dropdown.classList.toggle("hidden");
 }
+
+function handleMoveTaskModal(modalId, event) {
+    const targetElement = event.target;
+    const taskId = targetElement.getAttribute("data-task-id");
+    const columnId = targetElement.getAttribute("data-column-id");
+    const columnTitle = targetElement.getAttribute("data-column-title");
+    console.log("columnTitle", columnTitle, columnId, taskId);
+    const modal = document.getElementById(modalId);
+    const taskDescription =
+        targetElement.parentElement.parentElement.querySelector("p");
+    console.log("columnTitle", taskDescription);
+    const moveTaskForm = modal.querySelector("form");
+    const inputSelect = moveTaskForm.querySelector("select[name='column_id']");
+    console.log(inputSelect);
+    inputSelect.value = columnId;
+
+    console.log("inputSelect", inputSelect.options);
+
+    Array.from(inputSelect.options).forEach((option) => {
+        if (option?.value === columnId) {
+            option.disabled = true;
+            option.selected = true;
+            return;
+        }
+        option.disabled = false;
+    });
+
+    moveTaskForm.setAttribute("action", `/tasks/${taskId}`);
+
+    modal.classList.toggle("hidden");
+    const dropdown = event.currentTarget.parentElement;
+    dropdown.classList.toggle("hidden");
+}
