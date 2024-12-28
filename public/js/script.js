@@ -192,8 +192,6 @@ function handleMoveTaskModal(modalId, event) {
     console.log(inputSelect);
     inputSelect.value = columnId;
 
-    console.log("inputSelect", inputSelect.options);
-
     Array.from(inputSelect.options).forEach((option) => {
         if (option?.value === columnId) {
             option.disabled = true;

@@ -38,6 +38,8 @@ Route::post('/register', [AuthController::class, 'register'])->name('auth.regist
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout')->middleware('auth');
 
+Route::get('users.show', [AuthController::class, 'show'])->name('users.show')->middleware('auth');
+
 
 Route::resource('boards', BoardController::class)->middleware('auth')->only('index', 'create', 'store', 'show', 'update', 'destroy');
 
